@@ -1,0 +1,79 @@
+[project]
+name = "travvy-mcp-servers"
+version = "1.0.0"
+description = "MCP (Model Context Protocol) servers for Travvy travel assistant"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Travvy Team" }
+]
+keywords = ["mcp", "travel", "ai", "assistant", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # MCP Core Dependencies
+    "mcp>=1.14.1",
+    "fastmcp>=2.12.3",
+    
+    # HTTP and Async
+    "httpx>=0.28.1",
+    "aiohttp>=3.12.15",
+    
+    # Data and Validation
+    "pydantic>=2.11.9",
+    "python-dotenv>=1.1.1",
+    
+    # AI and LLM Integration
+    "langchain-groq>=0.3.8",
+    "langgraph>=0.6.7",
+    
+    # Travel APIs
+    "fast-flights>=2.2",
+    
+    # Web Scraping and Parsing
+    "beautifulsoup4>=4.13.5",
+    "lxml>=6.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/travvy/mcp-servers"
+Repository = "https://github.com/travvy/mcp-servers"
+Documentation = "https://github.com/travvy/mcp-servers#readme"
+
+# No CLI scripts defined yet - servers run directly via python
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
+
+[tool.black]
+target-version = ["py311"]
+line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"

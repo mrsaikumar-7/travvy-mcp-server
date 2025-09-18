@@ -1,0 +1,51 @@
+{
+  "mcpServers": {
+    "flights": {
+      "command": "python",
+      "args": ["flights.py"],
+      "transport": "stdio",
+      "description": "Flight search and booking capabilities"
+    },
+    "weather": {
+      "command": "python",
+      "args": ["weather_server.py"],
+      "transport": "stdio",
+      "description": "Weather information for travel destinations"
+    },
+    "maps": {
+      "command": "python",
+      "args": ["maps_server.py"],
+      "transport": "stdio",
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}"
+      },
+      "description": "Geographic information and mapping services"
+    },
+    "hotels": {
+      "command": "python",
+      "args": ["accomadation.py"],
+      "transport": "stdio",
+      "env": {
+        "RAPIDAPI_KEY": "${RAPIDAPI_KEY}",
+        "RAPIDAPI_HOST": "${RAPIDAPI_HOST}"
+      },
+      "description": "Hotel search and accommodation services"
+    },
+    "trains": {
+      "command": "python",
+      "args": ["train_server.py"],
+      "transport": "stdio",
+      "description": "Indian Railways train information and booking"
+    }
+  },
+  "settings": {
+    "timeout": 30,
+    "max_retries": 3,
+    "log_level": "INFO"
+  },
+  "client": {
+    "name": "Travvy MCP Client",
+    "version": "1.0.0",
+    "user_agent": "TravvyMCP/1.0"
+  }
+}

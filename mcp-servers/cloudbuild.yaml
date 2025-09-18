@@ -1,0 +1,48 @@
+# Cloud Build configuration for Travvy MCP Servers
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build', 
+      '-t', 'gcr.io/$PROJECT_ID/travvy-mcp-servers:$BUILD_ID',
+      '-t', 'gcr.io/$PROJECT_ID/travvy-mcp-servers:latest',
+      '.'
+    ]
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/travvy-mcp-servers:$BUILD_ID']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/travvy-mcp-servers:latest']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'travvy-mcp-servers',
+      '--image', 'gcr.io/$PROJECT_ID/travvy-mcp-servers:$BUILD_ID',
+      '--region', 'us-central1',
+      '--platform', 'managed',
+      '--allow-unauthenticated',
+      '--max-instances', '10',
+      '--memory', '2Gi',
+      '--cpu', '2',
+      '--timeout', '300',
+      '--port', '8080',
+      '--set-env-vars', 'PORT=8080',
+      '--min-instances', '0'
+    ]
+
+# Store images in Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/travvy-mcp-servers:$BUILD_ID'
+  - 'gcr.io/$PROJECT_ID/travvy-mcp-servers:latest'
+
+# Build options
+options:
+  machineType: 'E2_HIGHCPU_8'
+  diskSizeGb: '20'
+
+# Timeout for the entire build
+timeout: '1200s'
